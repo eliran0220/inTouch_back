@@ -3,14 +3,15 @@ import user_routes from '../routes/user.routes';
 import posts_routes from '../routes/posts.routes'
 import UserController from '../controllers/users.controller';
 import PostsController from '../controllers/posts.controller';
-import * as utilities from '../utilities/common.utils';
-import { IResponse, ISuccessResponse } from '../types/response.types';
+import * as utilitis from '../utilities/common.utils';
+import {Route} from '../types/common.types'
 import AsyncReqHandler from '../types/catcher.types';
 import bcrypt from 'bcrypt';
-import {GEN_SALT,STATUS_CODES,BAD_REQUEST_ERRORS} from '../utilities/constants.utilities';
+import {GEN_SALT} from '../utilities/constants.utilities';
 import { sign, SignOptions } from 'jsonwebtoken';
 import * as process from "process";
-import {GeneralException} from '../exceptions/general.exceptions';
+import { IErrorResponse } from '../types/response.types';
+import {STATUS_CODES,GENERAL_ERRORS,BAD_REQUEST_ERRORS} from '../utilities/constants.utilities';
 export const routes = [...user_routes,...posts_routes];
 
 export const controllersMapping = {
@@ -21,7 +22,7 @@ export const controllersMapping = {
 
 export const routeBuilder = (app : Express,route : Route) : void => {
     const {method, url, action, controller,middlewares} = route;
-    const Controller = utilities.controllersMapping[controller];
+    const Controller = utilitis.controllersMapping[controller];
     middlewares ? app.route(url)[method](...middlewares,errorWrapper(Controller[action])) : app.route(url)[method](errorWrapper(Controller[action]));
 }
 
@@ -31,18 +32,25 @@ export default function errorWrapper(routingFunc: AsyncReqHandler | RequestHandl
         try {
             await routingFunc(req, res, next);
         } catch (err) {
-            next(err);
+            console.log(err)
+            throw err;
         }
     };
 }
 
 export const hashUserPassword = async (password : string) => {
     let hashed_password : string = '';
+    let error : IErrorResponse;
     try{
         const salt = await bcrypt.genSalt(GEN_SALT);
         hashed_password = await bcrypt.hash(password,salt);
     } catch (err) {
-        throw err;
+        error = {
+            message: GENERAL_ERRORS.TOKEN_ERROR,
+            status: STATUS_CODES.GENERAL_ERROR,
+            code: 0
+        }
+        throw error;
     }
     return hashed_password;
 }
@@ -60,7 +68,12 @@ export const generateJwt = (email : string, password : string) =>{
         };
         if (TOKEN_KEY) return sign(payload,TOKEN_KEY,signInOptions)
     } catch(err) {
-        throw new GeneralException(BAD_REQUEST_ERRORS.TOKEN_ERROR,STATUS_CODES.GENERAL_ERROR)
+        const response : IErrorResponse = {
+            message: GENERAL_ERRORS.HASH_ERROR,
+            status: 500,
+            code: 0
+        }
+        throw response;
     }
 
 }

@@ -5,7 +5,6 @@ import * as utilities from '../utilities/common.utils';
 import * as process from "process";
 import {addIDToRequest} from '../middlewares/operationId.middleware';
 import {routeBuilder} from '../utilities/common.utils';
-import * as exceptionMiddlewares from '../middlewares/error.middlewares';
 import {connectDatabase} from '../utilities/db.utilities';
 class App {
     private readonly app : Express;
@@ -14,7 +13,6 @@ class App {
         this.app = express();
         this.initMiddlewares();
         this.initRoutes();
-        this.initExceptionHandlers();
         connectDatabase();
     }
 
@@ -24,10 +22,6 @@ class App {
         this.app.use(addIDToRequest);
     }
 
-    initExceptionHandlers() : void {
-        this.app.use(exceptionMiddlewares.NotFoundError);
-        this.app.use(exceptionMiddlewares.ErrorResponse);
-    }
     
     initRoutes() : void {
         for (const route of utilities.routes) {

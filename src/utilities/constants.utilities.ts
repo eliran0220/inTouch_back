@@ -1,4 +1,3 @@
-import { GeneralException } from "../exceptions/general.exceptions";
 
 export const REGEX = {
     "valid_password" : new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])([a-zA-Z0-9@$!%*?&]{8,})$"),
@@ -26,8 +25,13 @@ export enum SUCCESS_MESSAGES {
 export enum BAD_REQUEST_ERRORS {
     USER_N0T_FOUND = " was not found",
     USER_FOUND = " with this email already exists",
+}
+
+export enum GENERAL_ERRORS {
     GENERAL_ERROR = "General error occured",
-    TOKEN_ERROR = "Cannot create jwt token"
+    HASH_ERROR = "Hash error",
+    TOKEN_ERROR = "Cannot create jwt token",
+    ERROR_SAVING_USER_TOKEN = "Error saving user token"
 }
 
 export enum STATUS_CODES {

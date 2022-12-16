@@ -1,6 +1,6 @@
 export interface IResponse {
     status: number;
-    message: string;
+    message: any;
 }
 
 export interface ISuccessResponse extends IResponse {
@@ -8,5 +8,5 @@ export interface ISuccessResponse extends IResponse {
 }
 
 export interface IErrorResponse extends IResponse {
-    stack: string;
+    code: number
 }
