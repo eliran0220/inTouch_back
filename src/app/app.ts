@@ -6,6 +6,8 @@ import * as process from "process";
 import {addIDToRequest} from '../middlewares/operationId.middleware';
 import {routeBuilder} from '../utilities/common.utils';
 import {connectDatabase} from '../utilities/db.utilities';
+import cookieParser from 'cookie-parser';
+
 class App {
     private readonly app : Express;
     constructor() {
@@ -17,8 +19,9 @@ class App {
     }
 
     initMiddlewares() : void {
-        this.app.use(cors({origin: '*'}));
+        this.app.use(cors({origin:'http://localhost:3000',credentials:true}));
         this.app.use(express.json());
+        this.app.use(cookieParser());
         this.app.use(addIDToRequest);
     }
 
@@ -43,5 +46,3 @@ class App {
 const instance = new App();
 export default instance;
 
-
-//TODO - add db - user-token table

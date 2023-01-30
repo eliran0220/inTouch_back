@@ -1,13 +1,12 @@
 import jwt from 'jsonwebtoken';
 import * as process from 'process';
 import {Request,Response,NextFunction} from 'express';
-import { IErrorResponse } from '../types/response.types';
-import { BAD_REQUEST_ERRORS, STATUS_CODES } from '../utilities/constants.utilities';
+import { IResponse } from '../types/response.types';
 
 const verifyToken = async (req : Request, res : Response, next : NextFunction) => {
-    const token = req.headers["x-access-token"];
+    const token = req.headers["x-token"];
     if (!token) {
-        const response : IErrorResponse = {
+        const response : IResponse = {
             status : 403,
             message : 'Access denied, please login',
             code:0

@@ -13,8 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/cookie-parser": "^1.4.3",
     "@types/jsonwebtoken": "^8.5.8",
     "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "d": "^1.0.1",
     "debug": "^4.3.4",

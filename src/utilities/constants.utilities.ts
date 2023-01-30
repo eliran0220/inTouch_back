@@ -31,15 +31,16 @@ export enum GENERAL_ERRORS {
     GENERAL_ERROR = "General error occured",
     HASH_ERROR = "Hash error",
     TOKEN_ERROR = "Cannot create jwt token",
-    ERROR_SAVING_USER_TOKEN = "Error saving user token"
+    ERROR_SAVING_USER_TOKEN = "Error saving user token",
+    DATABASE_ERROR = "DB error occured"
 }
 
 export enum STATUS_CODES {
     BAD_REQUEST = 400,
     NOT_FOUND = 404,
-    DATABSE_ERROR = 500,
-    VALID_REQUEST = 200,
-    GENERAL_ERROR = 500
+    DATABASE_ERROR = 500,
+    GENERAL_ERROR = 500,
+    OK = 200
 }
 
 export const MANDATORY_FIELDS = ["email","password"];

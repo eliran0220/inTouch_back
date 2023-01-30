@@ -1,16 +1,16 @@
 import { Schema,Document,model } from 'mongoose';
 
 interface IUserToken extends Document{
-    email: string;
-    token: string
+  access_token: string;
+  refresh_token: string
   }
 
 const userSchema : Schema = new Schema({
-    email :{
+    access_token :{
         type: String,
         required : true
     },
-    token: {
+    refresh_token: {
         type: String,
         required: true
     }

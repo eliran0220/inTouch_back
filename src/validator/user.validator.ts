@@ -1,21 +1,22 @@
 import { ErrorAcumalator } from '../types/common.types';
 import {IUser, paramChecker} from '../types/request.types';
-import { IErrorResponse } from '../types/response.types';
-import {REGEX,STATUS_CODES,VALDIATION_ERRORS,MANDATORY_FIELDS} from '../utilities/constants.utilities';
+import { IResponse } from '../types/response.types';
+import {REGEX,VALDIATION_ERRORS,MANDATORY_FIELDS} from '../utilities/constants.utilities';
 
-export const validateUser = (user : IUser) : void => {
+export const validateUser = (user : IUser) => {
     checkIfparamsEmpty(user);
     let errors : ErrorAcumalator = {};
     const {password, first_name, last_name, email} = user;
     if (!validateEmail(email)) errors['invalid_email'] = VALDIATION_ERRORS.INVALID_EMAIL
     if (!validatePassword(password)) errors['invalid_password'] = VALDIATION_ERRORS.INVALID_PASSWORD
     if (Object.keys(errors).length > 0) {
-        const response : IErrorResponse = {
+        const response : IResponse = {
             message: errors,
             status: 400,
-            code: 1
+            code: 1,
+            data: null
         }
-        throw errors;
+        return response;
     }
 }
 
